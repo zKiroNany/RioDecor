@@ -343,10 +343,63 @@ img,svg{display:block}
 #qr{opacity:0;transition:opacity .4s ease}
 #qr.pronto{opacity:1}
 
+/* cursor de tinta */
+.cursor{position:fixed;top:0;left:0;width:20px;height:20px;border-radius:50%;background:var(--areia);
+  mix-blend-mode:difference;pointer-events:none;z-index:120;transform:translate3d(-50%,-50%,0);
+  transition:width .28s cubic-bezier(.2,.9,.3,1),height .28s cubic-bezier(.2,.9,.3,1),opacity .3s;opacity:0}
+.cursor.ativo{opacity:1}
+.cursor.grande{width:72px;height:72px}
+@media(pointer:coarse){.cursor{display:none}}
+
+/* revelação por letra */
+.letra{display:inline-block;opacity:0;filter:blur(8px);transform:translateY(.55em) rotate(5deg);
+  transition:opacity .55s ease,filter .55s ease,transform .8s cubic-bezier(.16,.9,.24,1)}
+.dentro .letra{opacity:1;filter:none;transform:none}
+
+/* reveal com desfoque */
+.revelar{filter:blur(10px)}
+.revelar.visivel{filter:none}
+.produto{filter:blur(8px);transform:translateY(30px) scale(.97)}
+.produto.visivel{filter:none;transform:none}
+.grade{perspective:1200px}
+.produto{transform-style:preserve-3d;will-change:transform}
+
+/* seção horizontal presa */
+.trilho{position:relative;height:420vh}
+.trilho-palco{position:sticky;top:0;height:100svh;overflow:hidden;display:flex;flex-direction:column;justify-content:center}
+.trilho-cabeca{padding:0 28px;max-width:var(--max);margin:0 auto 30px;width:100%}
+.trilho-cabeca h2{font-size:clamp(30px,4.4vw,54px)}
+.trilho-cabeca p{color:rgba(239,233,223,.6);margin-top:10px;max-width:40ch}
+.fita{display:flex;gap:26px;padding:0 7vw;will-change:transform}
+.painel{position:relative;flex:none;width:min(72vw,400px);height:min(56vh,440px);border-radius:18px;
+  overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:26px;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.16),0 30px 60px -30px #000}
+.painel::before{content:"";position:absolute;inset:0;background:var(--tom);transform:scale(1.16);
+  transition:transform .6s ease}
+.painel::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 40%,rgba(0,0,0,.55))}
+.painel:hover::before{transform:scale(1)}
+.painel>*{position:relative;z-index:2}
+.painel b{font-family:'Bricolage Grotesque';font-weight:800;font-size:27px;display:block;color:#fff}
+.painel span{font-size:13.5px;color:rgba(255,255,255,.78);margin-top:6px;display:block}
+.painel i{position:absolute;top:24px;left:26px;font-family:'Bricolage Grotesque';font-weight:800;
+  font-size:13px;letter-spacing:.2em;color:rgba(255,255,255,.7);font-style:normal}
+.trilho-barra{max-width:var(--max);margin:30px auto 0;padding:0 28px;width:100%}
+.trilho-barra div{height:2px;background:rgba(255,255,255,.14);border-radius:99px;overflow:hidden}
+.trilho-barra i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--magenta),var(--ciano))}
+
+/* faixa revelada por máscara */
+.faixa{clip-path:inset(0 var(--corte,14%) 0 var(--corte,14%) round 28px)}
+
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
   html{scroll-behavior:auto}
-  .revelar,.produto,#qr{opacity:1!important;transform:none!important}
+  .revelar,.produto,#qr,.letra{opacity:1!important;transform:none!important;filter:none!important}
+  .cursor{display:none}
+  .trilho{height:auto}
+  .trilho-palco{position:relative;height:auto;padding:70px 0}
+  .fita{flex-wrap:wrap;justify-content:center}
+  .faixa{clip-path:none}
   .recipiente{transform:translateY(-50%)!important}
   .palavra>span{transform:none!important}
   .cromatica{height:auto}
@@ -401,6 +454,17 @@ img,svg{display:block}
     </div>
     <div class="recipiente" id="recipiente"></div>
     <div class="indice" id="indice"></div>
+  </div>
+</section>
+
+<section class="trilho" id="ambientes">
+  <div class="trilho-palco">
+    <div class="trilho-cabeca">
+      <h2>Onde essas cores vivem</h2>
+      <p>Seis ambientes reais pintados com os tons da casa.</p>
+    </div>
+    <div class="fita" id="fita"></div>
+    <div class="trilho-barra"><div><i id="trilhoBarra"></i></div></div>
   </div>
 </section>
 
@@ -511,6 +575,7 @@ img,svg{display:block}
   </div>
 </div>
 
+<div class="cursor" id="cursor"></div>
 <canvas id="confete"></canvas>
 
 <script>
@@ -608,17 +673,38 @@ pintarCapa(estado.hex,estado.nome);
 /* ---------- nav, progresso e parallax ---------- */
 const nav=document.getElementById("nav"),barra=document.getElementById("progresso");
 const camadas=[...document.querySelectorAll("[data-parallax]")];
-let tique=false;
+let suave=scrollY;
 function aoRolar(){
   const y=scrollY;
   nav.classList.toggle("colada",y>40);
   const alturaTotal=document.body.scrollHeight-innerHeight;
   barra.style.width=(alturaTotal>0?(y/alturaTotal)*100:0)+"%";
-  if(!semMovimento)camadas.forEach(c=>{c.style.setProperty("--py",(y*+c.dataset.parallax)+"px");});
   moverCromatica(y);
-  tique=false;
+  moverTrilho(y);
+  moverFaixa();
 }
-addEventListener("scroll",()=>{if(!tique){tique=true;requestAnimationFrame(aoRolar);}},{passive:true});
+/* laço único: interpola a posição para dar inércia aos efeitos (estilo Locomotive) */
+function laco(){
+  const y=scrollY;
+  suave+=(y-suave)*(semMovimento?1:.11);
+  if(!semMovimento){
+    camadas.forEach(c=>c.style.setProperty("--py",(suave*+c.dataset.parallax).toFixed(2)+"px"));
+    saidaDaCapa(suave);
+    respirarPote(suave);
+  }
+  requestAnimationFrame(laco);
+}
+requestAnimationFrame(laco);
+addEventListener("scroll",()=>requestAnimationFrame(aoRolar),{passive:true});
+
+/* capa recua, desfoca e some enquanto sai de cena */
+const conteudoCapa=document.querySelector(".capa .wrap");
+function saidaDaCapa(y){
+  const p=Math.min(y/innerHeight,1);
+  conteudoCapa.style.transform=`translate3d(0,${p*90}px,0) scale(${1-p*.14})`;
+  conteudoCapa.style.filter=`blur(${p*9}px)`;
+  conteudoCapa.style.opacity=String(Math.max(1-p*1.5,0));
+}
 
 /* ---------- seção cromática travada ---------- */
 const CAPITULOS=[
@@ -689,6 +775,14 @@ function aplicarCapitulo(i){
   recipiente.classList.remove("trocando");void recipiente.offsetWidth;
   if(!semMovimento)recipiente.classList.add("trocando");
   indice.querySelectorAll("[data-ir]").forEach((b,j)=>b.setAttribute("aria-current",j===i));
+}
+function respirarPote(y){
+  if(!recipiente.firstChild)return;
+  const topo=cromatica.offsetTop,alt=cromatica.offsetHeight-innerHeight;
+  const p=Math.min(Math.max((y-topo)/alt,0),1);
+  const svg=recipiente.firstElementChild;if(!svg)return;
+  svg.style.transform=`translateY(${(p-.5)*-90}px) rotate(${(p-.5)*14}deg) scale(${.92+p*.16})`;
+  svg.style.animation="none";
 }
 function moverCromatica(y){
   const topo=cromatica.offsetTop,alt=cromatica.offsetHeight-innerHeight;
@@ -1004,6 +1098,85 @@ function soltarConfete(){
     if(++q<200)requestAnimationFrame(anima);
     else{x.clearRect(0,0,c.width,c.height);c.style.display="none";}})();
 }
+/* seção horizontal presa */
+const trilho=document.getElementById("ambientes"),fita=document.getElementById("fita");
+const trilhoBarra=document.getElementById("trilhoBarra");
+const AMBIENTES=[
+ {n:"Sala de estar",c:"#123C8C",d:"Azul Guanabara · parede da TV"},
+ {n:"Quarto",c:"#0E7A5F",d:"Verde Tijuca · acetinado"},
+ {n:"Cozinha",c:"#E9A62B",d:"Ocre Copacabana · lavável"},
+ {n:"Varanda",c:"#C4552F",d:"Terracota Santa Teresa · externa"},
+ {n:"Parede de destaque",c:"#C0356F",d:"Magenta Carnaval · fosco"},
+ {n:"Escritório",c:"#101528",d:"Preto Basalto · ultrafosco"}
+];
+fita.innerHTML=AMBIENTES.map((a,i)=>`
+  <article class="painel" style="--tom:${a.c}">
+    <i>${String(i+1).padStart(2,"0")}</i>
+    <b>${a.n}</b><span>${a.d}</span>
+  </article>`).join("");
+function moverTrilho(y){
+  if(semMovimento)return;
+  const topo=trilho.offsetTop,alt=trilho.offsetHeight-innerHeight;
+  const p=Math.min(Math.max((y-topo)/alt,0),1);
+  const curso=Math.max(fita.scrollWidth-innerWidth+innerWidth*.14,0);
+  fita.style.transform=`translate3d(${-curso*p}px,0,0)`;
+  trilhoBarra.style.width=(p*100)+"%";
+}
+
+/* faixa revelada por máscara conforme entra na tela */
+const faixaEl=document.querySelector(".faixa");
+function moverFaixa(){
+  if(semMovimento)return;
+  const r=faixaEl.getBoundingClientRect();
+  const p=Math.min(Math.max(1-(r.top-innerHeight*.15)/(innerHeight*.85),0),1);
+  faixaEl.style.setProperty("--corte",(1-p)*16+"%");
+}
+
+/* títulos revelados letra por letra */
+(function letras(){
+  if(semMovimento)return;
+  const obs=new IntersectionObserver(es=>es.forEach(e=>{
+    if(e.isIntersecting){e.target.classList.add("dentro");obs.unobserve(e.target);}}),{threshold:.35});
+  document.querySelectorAll(".secao h2,.faixa h2,.trilho-cabeca h2").forEach(h=>{
+    const frag=document.createDocumentFragment();let i=0;
+    [...h.textContent].forEach(ch=>{
+      if(ch===" "){frag.appendChild(document.createTextNode(" "));return;}
+      const sp=document.createElement("span");sp.className="letra";sp.textContent=ch;
+      sp.style.transitionDelay=(i++*26)+"ms";frag.appendChild(sp);});
+    h.textContent="";h.appendChild(frag);obs.observe(h);
+  });
+})();
+
+/* cursor de tinta + botões magnéticos + cards com perspectiva */
+(function interacoes(){
+  if(semMovimento||matchMedia("(pointer:coarse)").matches)return;
+  const cur=document.getElementById("cursor");
+  let cx=innerWidth/2,cy=innerHeight/2,ax=cx,ay=cy;
+  addEventListener("pointermove",e=>{cx=e.clientX;cy=e.clientY;cur.classList.add("ativo");},{passive:true});
+  (function seguir(){ax+=(cx-ax)*.18;ay+=(cy-ay)*.18;
+    cur.style.transform=`translate3d(${ax-10}px,${ay-10}px,0)`;requestAnimationFrame(seguir);})();
+  const grudar=e=>{const a=e.target.closest("button,a,.painel,.produto");
+    cur.classList.toggle("grande",!!a);};
+  addEventListener("pointerover",grudar,{passive:true});
+
+  document.addEventListener("pointermove",e=>{
+    const b=e.target.closest(".btn,.btn-nav,.btn-largo");
+    if(!b)return;const r=b.getBoundingClientRect();
+    b.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.18}px,${(e.clientY-r.top-r.height/2)*.3}px)`;
+  },{passive:true});
+  document.addEventListener("pointerout",e=>{
+    const b=e.target.closest(".btn,.btn-nav,.btn-largo");if(b)b.style.transform="";},{passive:true});
+
+  document.addEventListener("pointermove",e=>{
+    const c=e.target.closest(".produto");if(!c)return;
+    const r=c.getBoundingClientRect();
+    const rx=((e.clientY-r.top)/r.height-.5)*-9,ry=((e.clientX-r.left)/r.width-.5)*11;
+    c.style.transform=`rotateX(${rx}deg) rotateY(${ry}deg) translateY(-6px)`;
+  },{passive:true});
+  document.addEventListener("pointerout",e=>{
+    const c=e.target.closest(".produto");if(c)c.style.transform="";},{passive:true});
+})();
+
 /* letreiro rolante com as cores da casa */
 (function montarLetreiro(){
   const itens=CAPITULOS.map(c=>`<li><i style="background:${c.h};color:${c.h}"></i>${c.n}</li>`).join("");
