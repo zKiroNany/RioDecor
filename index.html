@@ -10,12 +10,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --noite:#080C1F;
-  --indigo:#0F1633;
-  --magenta:#E23C7B;
-  --ciano:#37B9F1;
-  --lilas:#7B5BF0;
-  --areia:#EFE9DF;
+  --noite:#0D0B0A;
+  --indigo:#191310;
+  --magenta:#E4322B;   /* vermelho Suvinil */
+  --ciano:#FFC20E;     /* amarelo Suvinil  */
+  --lilas:#F57C1F;     /* laranja Suvinil  */
+  --areia:#F7F3EC;
   --neblina:rgba(255,255,255,.14);
   --cor-viva:#123C8C;
   --cor-viva-texto:#FFFFFF;
@@ -38,17 +38,17 @@ img,svg{display:block}
 
 /* progresso de leitura */
 .progresso{position:fixed;top:0;left:0;height:3px;width:0;z-index:90;
-  background:linear-gradient(90deg,var(--magenta),var(--lilas),var(--ciano))}
+  background:linear-gradient(90deg,var(--magenta),var(--lilas) 55%,var(--ciano))}
 
 /* ---------- nav ---------- */
 .nav{position:fixed;top:0;left:0;right:0;z-index:80;transition:background .35s ease,backdrop-filter .35s ease,border-color .35s ease;
   border-bottom:1px solid transparent}
-.nav.colada{background:rgba(8,12,31,.82);backdrop-filter:blur(14px);border-color:var(--neblina)}
+.nav.colada{background:rgba(13,11,10,.88);backdrop-filter:blur(14px);border-color:var(--neblina)}
 .nav .wrap{display:flex;align-items:center;gap:32px;height:76px}
 .marca{display:flex;align-items:center;gap:11px;font-family:'Bricolage Grotesque';font-weight:800;font-size:20px;letter-spacing:-.04em}
 .marca .glifo{width:30px;height:30px;border-radius:50%;flex:none;
-  background:conic-gradient(from 210deg,var(--magenta),var(--lilas),var(--ciano),var(--magenta));
-  box-shadow:0 0 22px rgba(226,60,123,.45)}
+  background:conic-gradient(from 200deg,var(--magenta),var(--lilas),var(--ciano),var(--magenta));
+  box-shadow:0 0 22px rgba(228,50,43,.5)}
 .links{display:flex;gap:26px;margin-left:auto;font-size:14.5px;color:rgba(239,233,223,.72)}
 .links a{padding:6px 0;border-bottom:1px solid transparent}
 .links a:hover{color:var(--areia);border-color:var(--ciano)}
@@ -67,8 +67,8 @@ img,svg{display:block}
 .b2{animation-duration:21s;animation-direction:alternate-reverse}
 .b3{animation-duration:13s}
 .b1{width:620px;height:620px;background:var(--magenta);top:-160px;right:-120px}
-.b2{width:520px;height:520px;background:var(--ciano);bottom:-180px;left:-140px;opacity:.42}
-.b3{width:380px;height:380px;background:var(--lilas);top:38%;left:42%;opacity:.35}
+.b2{width:520px;height:520px;background:var(--ciano);bottom:-200px;left:-160px;opacity:.26}
+.b3{width:380px;height:380px;background:var(--lilas);top:38%;left:42%;opacity:.3}
 .capa .wrap{position:relative;z-index:3;display:flex;flex-direction:column;align-items:center;
   text-align:center;width:100%}
 .eyebrow{font-size:13px;letter-spacing:.18em;white-space:nowrap;color:rgba(239,233,223,.6);margin-bottom:26px;
@@ -95,8 +95,8 @@ img,svg{display:block}
   transition:transform .15s ease,box-shadow .25s ease}
 .btn:active{transform:translateY(1px)}
 .btn-cor{background:linear-gradient(100deg,var(--magenta),var(--lilas));color:#fff;
-  box-shadow:0 12px 40px -12px rgba(226,60,123,.8)}
-.btn-cor:hover{transform:translateY(-3px);box-shadow:0 18px 50px -14px rgba(226,60,123,.9)}
+  box-shadow:0 12px 40px -12px rgba(228,50,43,.8)}
+.btn-cor:hover{transform:translateY(-3px);box-shadow:0 18px 50px -14px rgba(228,50,43,.9)}
 .btn-linha{box-shadow:inset 0 0 0 1.5px rgba(239,233,223,.35)}
 .btn-linha:hover{box-shadow:inset 0 0 0 1.5px var(--areia)}
 
@@ -137,8 +137,8 @@ img,svg{display:block}
 .capitulo-cta{margin-top:32px;display:inline-block;padding:14px 26px;border-radius:99px;
   font-family:'Bricolage Grotesque';font-weight:800;font-size:15px;
   box-shadow:inset 0 0 0 1.5px currentColor}
-.capitulo-cta:hover{background:currentColor}
-.capitulo-cta:hover span{mix-blend-mode:difference}
+.capitulo-cta:hover{box-shadow:inset 0 0 0 2.5px currentColor;transform:translateY(-2px)}
+.capitulo-cta{transition:transform .2s ease,box-shadow .2s ease}
 .indice{position:absolute;right:28px;top:50%;transform:translateY(-50%);z-index:3;
   display:flex;flex-direction:column;gap:14px;align-items:flex-end}
 .indice button{display:flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.1em;opacity:.45;transition:opacity .3s ease}
@@ -212,15 +212,15 @@ img,svg{display:block}
 .aviso{width:100%;margin-top:36px;padding-top:20px;border-top:1px solid var(--neblina);font-size:12.5px;color:rgba(239,233,223,.42)}
 
 /* ---------- modais ---------- */
-.fundo{position:fixed;inset:0;background:rgba(4,7,20,.78);backdrop-filter:blur(6px);
+.fundo{position:fixed;inset:0;background:rgba(10,8,7,.82);backdrop-filter:blur(6px);
   display:none;align-items:center;justify-content:center;padding:20px;z-index:100}
 .fundo.aberto{display:flex}
-.modal{background:#12172E;border-radius:16px;width:100%;max-width:900px;max-height:92svh;overflow:auto;
+.modal{background:#1B1613;border-radius:16px;width:100%;max-width:900px;max-height:92svh;overflow:auto;
   box-shadow:inset 0 0 0 1px var(--neblina),0 40px 90px -30px #000;animation:sobe .28s cubic-bezier(.2,.8,.3,1)}
 .modal.estreito{max-width:540px}
 @keyframes sobe{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:none}}
 .modal-cabeca{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 26px;
-  border-bottom:1px solid var(--neblina);position:sticky;top:0;background:#12172E;z-index:2}
+  border-bottom:1px solid var(--neblina);position:sticky;top:0;background:#1B1613;z-index:2}
 .modal-cabeca h3{font-size:23px}
 .modal-cabeca p{font-size:13.5px;color:rgba(239,233,223,.6);margin-top:3px}
 .fechar{width:38px;height:38px;border-radius:50%;font-size:18px;color:rgba(239,233,223,.7);flex:none}
@@ -259,7 +259,7 @@ img,svg{display:block}
 .total b{font-family:'Bricolage Grotesque';font-weight:800;font-size:32px}
 .btn-largo{width:100%;padding:17px;border-radius:99px;font-family:'Bricolage Grotesque';font-weight:800;font-size:17px;
   background:linear-gradient(100deg,var(--magenta),var(--lilas));color:#fff;
-  box-shadow:0 16px 44px -16px rgba(226,60,123,.9)}
+  box-shadow:0 16px 44px -16px rgba(228,50,43,.9)}
 .btn-largo[disabled]{opacity:.6;cursor:progress;box-shadow:none}
 .pix{display:grid;grid-template-columns:172px 1fr;gap:22px;align-items:start;margin-top:24px}
 @media(max-width:560px){.pix{grid-template-columns:1fr;justify-items:center;text-align:center}}
@@ -344,11 +344,13 @@ img,svg{display:block}
 #qr.pronto{opacity:1}
 
 /* cursor de tinta */
-.cursor{position:fixed;top:0;left:0;width:20px;height:20px;border-radius:50%;background:var(--areia);
-  mix-blend-mode:difference;pointer-events:none;z-index:120;transform:translate3d(-50%,-50%,0);
-  transition:width .28s cubic-bezier(.2,.9,.3,1),height .28s cubic-bezier(.2,.9,.3,1),opacity .3s;opacity:0}
-.cursor.ativo{opacity:1}
-.cursor.grande{width:72px;height:72px}
+.cursor{position:fixed;top:0;left:0;width:14px;height:14px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,var(--ciano),var(--lilas) 55%,var(--magenta));
+  pointer-events:none;z-index:120;transform:translate3d(-50%,-50%,0);opacity:0;
+  box-shadow:0 0 18px rgba(245,124,31,.55);
+  transition:width .28s cubic-bezier(.2,.9,.3,1),height .28s cubic-bezier(.2,.9,.3,1),opacity .3s}
+.cursor.ativo{opacity:.9}
+.cursor.grande{width:46px;height:46px;opacity:.45}
 @media(pointer:coarse){.cursor{display:none}}
 
 /* revelação por letra */
@@ -363,6 +365,14 @@ img,svg{display:block}
 .produto.visivel{filter:none;transform:none}
 .grade{perspective:1200px}
 .produto{transform-style:preserve-3d;will-change:transform}
+
+/* derrame de tinta entre seções */
+.derrame{position:relative;height:320px;margin-top:-2px;overflow:hidden;pointer-events:none}
+.derrame svg{width:100%;height:100%;display:block}
+#gotas,#gotasFundo,#sombraGotas{transform-origin:50% 0;transform:scaleY(.25)}
+.respingo{opacity:0;transition:opacity .5s ease}
+.derrame{perspective:900px}
+.derrame svg{transform:rotateX(var(--inclina,0deg));transform-origin:50% 0}
 
 /* seção horizontal presa */
 .trilho{position:relative;height:420vh}
@@ -392,19 +402,27 @@ img,svg{display:block}
 .faixa{clip-path:inset(0 var(--corte,14%) 0 var(--corte,14%) round 28px)}
 
 @media(prefers-reduced-motion:reduce){
-  *{animation:none!important;transition:none!important}
-  html{scroll-behavior:auto}
-  .revelar,.produto,#qr,.letra{opacity:1!important;transform:none!important;filter:none!important}
-  .cursor{display:none}
-  .trilho{height:auto}
-  .trilho-palco{position:relative;height:auto;padding:70px 0}
-  .fita{flex-wrap:wrap;justify-content:center}
-  .faixa{clip-path:none}
-  .recipiente{transform:translateY(-50%)!important}
-  .palavra>span{transform:none!important}
-  .cromatica{height:auto}
-  .palco{position:relative;height:auto;padding:90px 0}
+  body:not(.movimento-on) *{animation:none!important;transition:none!important}
+  body:not(.movimento-on) .revelar,body:not(.movimento-on) .produto,
+  body:not(.movimento-on) #qr,body:not(.movimento-on) .letra{opacity:1!important;transform:none!important;filter:none!important}
+  body:not(.movimento-on) .cursor{display:none}
+  body:not(.movimento-on) .trilho{height:auto}
+  body:not(.movimento-on) .trilho-palco{position:relative;height:auto;padding:70px 0}
+  body:not(.movimento-on) .fita{flex-wrap:wrap;justify-content:center}
+  body:not(.movimento-on) .faixa{clip-path:none}
+  body:not(.movimento-on) .recipiente{transform:translateY(-50%)!important}
+  body:not(.movimento-on) .palavra>span{transform:none!important}
+  body:not(.movimento-on) .cromatica{height:auto}
+  body:not(.movimento-on) .palco{position:relative;height:auto;padding:90px 0}
 }
+/* aviso quando o sistema está com movimento reduzido */
+.aviso-motion{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:95;
+  display:none;align-items:center;gap:14px;padding:12px 16px;border-radius:99px;font-size:13.5px;
+  background:rgba(27,22,19,.94);backdrop-filter:blur(10px);box-shadow:inset 0 0 0 1px var(--neblina);
+  color:rgba(239,233,223,.8)}
+.aviso-motion.ver{display:flex}
+.aviso-motion button{padding:8px 15px;border-radius:99px;font-weight:600;font-size:13px;
+  background:linear-gradient(100deg,var(--magenta),var(--lilas));color:#fff}
 </style>
 </head>
 <body>
@@ -456,6 +474,100 @@ img,svg{display:block}
     <div class="indice" id="indice"></div>
   </div>
 </section>
+
+<div class="derrame" id="derrame" aria-hidden="true">
+  <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="tintaMarca" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#E4322B"/>
+        <stop offset="52%" stop-color="#F57C1F"/>
+        <stop offset="100%" stop-color="#FFC20E"/>
+      </linearGradient>
+      <linearGradient id="tintaFundo" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#7E1A16"/>
+        <stop offset="52%" stop-color="#8E4409"/>
+        <stop offset="100%" stop-color="#8F6A05"/>
+      </linearGradient>
+      <!-- massa líquida simples, para a camada de trás e a sombra -->
+      <filter id="liquido" x="-12%" y="-12%" width="124%" height="145%">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="b"/>
+        <feColorMatrix in="b" mode="matrix"
+          values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 24 -11"/>
+      </filter>
+      <!-- massa líquida com volume: goo + iluminação especular -->
+      <filter id="liquido3d" x="-15%" y="-15%" width="130%" height="155%">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="b"/>
+        <feColorMatrix in="b" mode="matrix"
+          values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 24 -11" result="massa"/>
+        <feGaussianBlur in="massa" stdDeviation="7" result="relevo"/>
+        <feSpecularLighting in="relevo" surfaceScale="6" specularConstant=".62"
+          specularExponent="34" lighting-color="#FFE9C4" result="brilho">
+          <fePointLight id="luz" x="430" y="-120" z="180"/>
+        </feSpecularLighting>
+        <feComposite in="brilho" in2="massa" operator="in" result="brilhoNaTinta"/>
+        <feComposite in="massa" in2="brilhoNaTinta" operator="arithmetic"
+          k1="0" k2="1" k3="0.55" k4="0" result="iluminada"/>
+        <feGaussianBlur in="massa" stdDeviation="5" result="sombraInterna"/>
+        <feOffset in="sombraInterna" dx="0" dy="7" result="sombraDeslocada"/>
+        <feComposite in="sombraDeslocada" in2="massa" operator="in" result="sombraRecortada"/>
+        <feComposite in="iluminada" in2="sombraRecortada" operator="arithmetic"
+          k1="0" k2="1" k3="-0.28" k4="0"/>
+      </filter>
+      <filter id="sombraChao" x="-12%" y="-12%" width="124%" height="150%">
+        <feGaussianBlur stdDeviation="14"/></filter>
+    </defs>
+
+    <!-- sombra projetada na seção de baixo -->
+    <g id="sombraChao" fill="#000" opacity=".5" filter="url(#sombraChao)">
+      <rect x="0" y="14" width="1440" height="54"/>
+      <g id="sombraGotas">
+        <ellipse cx="104"  cy="84" rx="30" ry="72"/>
+        <ellipse cx="274"  cy="84" rx="23" ry="118"/>
+        <ellipse cx="614"  cy="84" rx="21" ry="140"/>
+        <ellipse cx="944"  cy="84" rx="24" ry="112"/>
+        <ellipse cx="1264" cy="84" rx="22" ry="130"/>
+      </g>
+    </g>
+
+    <!-- camada de trás: tinta mais escura e mais lenta (profundidade) -->
+    <g fill="url(#tintaFundo)" filter="url(#liquido)">
+      <rect x="0" y="0" width="1440" height="46"/>
+      <g id="gotasFundo">
+        <ellipse cx="175"  cy="56" rx="30" ry="104"/>
+        <ellipse cx="345"  cy="56" rx="22" ry="68"/>
+        <ellipse cx="515"  cy="56" rx="28" ry="132"/>
+        <ellipse cx="845"  cy="56" rx="24" ry="82"/>
+        <ellipse cx="1010" cy="56" rx="31" ry="118"/>
+        <ellipse cx="1170" cy="56" rx="23" ry="78"/>
+        <ellipse cx="1330" cy="56" rx="29" ry="112"/>
+      </g>
+    </g>
+
+    <!-- camada da frente: tinta iluminada com volume -->
+    <g fill="url(#tintaMarca)" filter="url(#liquido3d)">
+      <rect x="0" y="0" width="1440" height="58"/>
+      <g id="gotas">
+        <ellipse cx="90"   cy="70" rx="34" ry="78"/>
+        <ellipse cx="260"  cy="70" rx="26" ry="128"/>
+        <ellipse cx="430"  cy="70" rx="38" ry="56"/>
+        <ellipse cx="600"  cy="70" rx="24" ry="152"/>
+        <ellipse cx="760"  cy="70" rx="40" ry="92"/>
+        <ellipse cx="930"  cy="70" rx="27" ry="124"/>
+        <ellipse cx="1090" cy="70" rx="36" ry="66"/>
+        <ellipse cx="1250" cy="70" rx="25" ry="142"/>
+        <ellipse cx="1390" cy="70" rx="34" ry="86"/>
+      </g>
+    </g>
+    <g fill="url(#tintaMarca)">
+      <circle class="respingo" cx="330"  cy="262" r="7"/>
+      <circle class="respingo" cx="675"  cy="286" r="5"/>
+      <circle class="respingo" cx="1015" cy="252" r="9"/>
+      <circle class="respingo" cx="1180" cy="280" r="4"/>
+      <circle class="respingo" cx="520"  cy="270" r="5"/>
+      <circle class="respingo" cx="880"  cy="240" r="6"/>
+    </g>
+  </svg>
+</div>
 
 <section class="trilho" id="ambientes">
   <div class="trilho-palco">
@@ -575,13 +687,17 @@ img,svg{display:block}
   </div>
 </div>
 
+<div class="aviso-motion" id="avisoMotion">
+  <span>Seu sistema está com movimento reduzido, por isso os efeitos estão desligados.</span>
+  <button id="ligarMotion">Ativar mesmo assim</button>
+</div>
 <div class="cursor" id="cursor"></div>
 <canvas id="confete"></canvas>
 
 <script>
 /* ---------- utilidades de cor ---------- */
 const NOMES=[
- ["#E23C7B","Rosa Lapa"],["#C0356F","Magenta Carnaval"],["#B3121F","Vermelho Rubi"],
+ ["#E23C7B","Rosa Lapa"],["#E4322B","Vermelho Carnaval"],["#B3121F","Vermelho Rubi"],
  ["#C4552F","Terracota Santa Teresa"],["#FF6B00","Laranja Sinal"],["#E9A62B","Ocre Copacabana"],
  ["#F4D35E","Amarelo Ipanema"],["#EFE9DF","Areia Leblon"],["#7CB518","Verde Limão"],
  ["#0E7A5F","Verde Tijuca"],["#3F5D3A","Verde Musgo"],["#00B3A4","Turquesa Búzios"],
@@ -608,7 +724,18 @@ const brl=n=>n.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
 const misturar=(a,b,t)=>{const A=hexRgb(a),B=hexRgb(b);
   return rgbHex(A[0]+(B[0]-A[0])*t,A[1]+(B[1]-A[1])*t,A[2]+(B[2]-A[2])*t);};
 
-const semMovimento=matchMedia("(prefers-reduced-motion:reduce)").matches;
+const forcado=new URLSearchParams(location.search).get("anim")==="1";
+if(forcado)document.body.classList.add("movimento-on");
+const sistemaReduz=matchMedia("(prefers-reduced-motion:reduce)").matches;
+const semMovimento=sistemaReduz&&!forcado;
+console.log("Rio Decor · build 7 (pontas inteiras, sem corte) · movimento:",semMovimento?"desligado":"ligado");
+if(sistemaReduz&&!forcado){
+  addEventListener("DOMContentLoaded",()=>{
+    const av=document.getElementById("avisoMotion");av.classList.add("ver");
+    document.getElementById("ligarMotion").onclick=()=>{
+      location.search=location.search?location.search+"&anim=1":"?anim=1";};
+  });
+}
 const raiz=document.documentElement;
 const estado={hex:"#123C8C",nome:"Azul Guanabara",acabamento:0,tamanho:1,base:189.9,item:"Cor personalizada"};
 const ACABAMENTOS=[{n:"Fosco",f:1},{n:"Acetinado",f:1.08},{n:"Brilhante",f:1.15}];
@@ -647,7 +774,7 @@ pintarCapa(estado.hex,estado.nome);
   const c=document.getElementById("pincel"),x=c.getContext("2d"),capa=document.querySelector(".capa");
   const dim=()=>{c.width=capa.offsetWidth;c.height=capa.offsetHeight;};
   dim();addEventListener("resize",dim);
-  const pingos=[];const paleta=["#E23C7B","#7B5BF0","#37B9F1","#E9A62B","#0E7A5F"];
+  const pingos=[];const paleta=["#E4322B","#F57C1F","#FFC20E","#C4552F","#E9A62B"];
   let ultimo=0;
   capa.addEventListener("pointermove",e=>{
     const agora=performance.now();if(agora-ultimo<26)return;ultimo=agora;
@@ -681,6 +808,7 @@ function aoRolar(){
   barra.style.width=(alturaTotal>0?(y/alturaTotal)*100:0)+"%";
   moverCromatica(y);
   moverTrilho(y);
+  moverDerrame();
   moverFaixa();
 }
 /* laço único: interpola a posição para dar inércia aos efeitos (estilo Locomotive) */
@@ -712,7 +840,7 @@ const CAPITULOS=[
  {h:"#0E7A5F",n:"Verde Tijuca",v:"rolo",t:"Verde de mata fechada. Deixa quarto e escritório mais silenciosos.",e:"Acrílica acetinada · rende 45 m²"},
  {h:"#E9A62B",n:"Ocre Copacabana",v:"spray",t:"O amarelo queimado do calçadão às cinco da tarde. Esquenta ambiente frio.",e:"Também em spray 400 ml"},
  {h:"#C4552F",n:"Terracota Santa Teresa",v:"balde",t:"Barro de telha antiga. Combina com madeira crua e tijolo aparente.",e:"Balde 18 L para área grande"},
- {h:"#C0356F",n:"Magenta Carnaval",v:"pincel",t:"Para quem cansou de parede branca. Funciona melhor em uma parede só.",e:"Ideal para parede de destaque"},
+ {h:"#E4322B",n:"Vermelho Carnaval",v:"pincel",t:"Para quem cansou de parede branca. Funciona melhor em uma parede só.",e:"Ideal para parede de destaque"},
  {h:"#101528",n:"Preto Basalto",v:"verniz",t:"Fosco absoluto. Some com a parede e joga toda a luz nos móveis.",e:"Disponível também em verniz"}
 ];
 const POTES={
@@ -1035,15 +1163,15 @@ function desenharQR(){
     if((i<8&&j<8)||(i>n-9&&j<8)||(i<8&&j>n-9))continue;
     if(rnd()>.52)modulos.push([i,j]);}
   const marca=(cx,cy)=>{
-    x.fillStyle="#0B1020";x.fillRect((cx+1)*s,(cy+1)*s,s*7,s*7);
+    x.fillStyle="#161210";x.fillRect((cx+1)*s,(cy+1)*s,s*7,s*7);
     x.fillStyle="#fff";x.fillRect((cx+2)*s,(cy+2)*s,s*5,s*5);
-    x.fillStyle="#0B1020";x.fillRect((cx+3)*s,(cy+3)*s,s*3,s*3);};
+    x.fillStyle="#161210";x.fillRect((cx+3)*s,(cy+3)*s,s*3,s*3);};
   c.classList.add("pronto");
-  if(semMovimento){x.fillStyle="#0B1020";modulos.forEach(([i,j])=>x.fillRect((i+1)*s,(j+1)*s,s,s));
+  if(semMovimento){x.fillStyle="#161210";modulos.forEach(([i,j])=>x.fillRect((i+1)*s,(j+1)*s,s,s));
     marca(0,0);marca(n-7,0);marca(0,n-7);return;}
   let k=0;
   (function pintar(){
-    x.fillStyle="#0B1020";
+    x.fillStyle="#161210";
     for(let q=0;q<26&&k<modulos.length;q++,k++){
       const[i,j]=modulos[k];x.fillRect((i+1)*s,(j+1)*s,s,s);}
     if(k<modulos.length)requestAnimationFrame(pintar);
@@ -1083,7 +1211,7 @@ function soltarConfete(){
   if(semMovimento)return;
   const c=document.getElementById("confete"),x=c.getContext("2d");
   c.width=innerWidth;c.height=innerHeight;c.style.display="block";
-  const cores=[estado.hex,"#E23C7B","#7B5BF0","#37B9F1","#E9A62B","#EFE9DF"];
+  const cores=[estado.hex,"#E4322B","#F57C1F","#FFC20E","#E9A62B","#F7F3EC"];
   const ps=Array.from({length:120},()=>({
     x:innerWidth/2+(Math.random()-.5)*280,y:innerHeight/2,
     vx:(Math.random()-.5)*10,vy:Math.random()*-14-4,g:.34+Math.random()*.16,
@@ -1106,7 +1234,7 @@ const AMBIENTES=[
  {n:"Quarto",c:"#0E7A5F",d:"Verde Tijuca · acetinado"},
  {n:"Cozinha",c:"#E9A62B",d:"Ocre Copacabana · lavável"},
  {n:"Varanda",c:"#C4552F",d:"Terracota Santa Teresa · externa"},
- {n:"Parede de destaque",c:"#C0356F",d:"Magenta Carnaval · fosco"},
+ {n:"Parede de destaque",c:"#E4322B",d:"Vermelho Carnaval · fosco"},
  {n:"Escritório",c:"#101528",d:"Preto Basalto · ultrafosco"}
 ];
 fita.innerHTML=AMBIENTES.map((a,i)=>`
@@ -1121,6 +1249,32 @@ function moverTrilho(y){
   const curso=Math.max(fita.scrollWidth-innerWidth+innerWidth*.14,0);
   fita.style.transform=`translate3d(${-curso*p}px,0,0)`;
   trilhoBarra.style.width=(p*100)+"%";
+}
+
+/* tinta escorrendo entre a seção de cores e os ambientes */
+const derrame=document.getElementById("derrame");
+const gotas=document.getElementById("gotas");
+const gotasFundo=document.getElementById("gotasFundo");
+const sombraGotas=document.getElementById("sombraGotas");
+const luz=document.getElementById("luz");
+const respingos=[...document.querySelectorAll(".respingo")];
+function moverDerrame(){
+  if(semMovimento)return;
+  const r=derrame.getBoundingClientRect();
+  const p=Math.min(Math.max(1-(r.top-innerHeight*.25)/(innerHeight*.75),0),1);
+  gotas.style.transform=`scaleY(${(.25+p*.88).toFixed(3)})`;
+  gotasFundo.style.transform=`scaleY(${(.2+p*.62).toFixed(3)}) translateX(${(p*-16).toFixed(1)}px)`;
+  sombraGotas.style.transform=`scaleY(${(.22+p*.82).toFixed(3)})`;
+  derrame.style.setProperty("--inclina",((1-p)*7).toFixed(2)+"deg");
+  respingos.forEach((c,i)=>c.style.opacity=String(p>.55+i*.06?.85:0));
+}
+/* a luz acompanha o mouse: é o que faz a tinta parecer volume de verdade */
+if(!semMovimento&&!matchMedia("(pointer:coarse)").matches){
+  addEventListener("pointermove",e=>{
+    const r=derrame.getBoundingClientRect();
+    luz.setAttribute("x",String((e.clientX/innerWidth)*1440));
+    luz.setAttribute("y",String(Math.max((e.clientY-r.top)*.5,-160)));
+  },{passive:true});
 }
 
 /* faixa revelada por máscara conforme entra na tela */
