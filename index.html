@@ -59,20 +59,38 @@ img,svg{display:block}
 
 /* ---------- capa ---------- */
 .capa{position:relative;min-height:100svh;display:flex;align-items:center;overflow:hidden;padding:120px 0 90px}
-.brilho{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55;pointer-events:none;will-change:transform}
+.brilho{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55;pointer-events:none;will-change:transform;
+  transform:translate3d(0,var(--py,0px),0);animation:derivar 16s ease-in-out infinite alternate}
+@keyframes derivar{
+  from{transform:translate3d(0,var(--py,0px),0) scale(1)}
+  to{transform:translate3d(38px,calc(var(--py,0px) + 46px),0) scale(1.16)}}
+.b2{animation-duration:21s;animation-direction:alternate-reverse}
+.b3{animation-duration:13s}
 .b1{width:620px;height:620px;background:var(--magenta);top:-160px;right:-120px}
 .b2{width:520px;height:520px;background:var(--ciano);bottom:-180px;left:-140px;opacity:.42}
 .b3{width:380px;height:380px;background:var(--lilas);top:38%;left:42%;opacity:.35}
-.capa .wrap{position:relative;z-index:2;display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center;width:100%}
-.eyebrow{font-size:13.5px;letter-spacing:.16em;color:rgba(239,233,223,.6);margin-bottom:22px;
-  display:flex;align-items:center;gap:12px}
-.eyebrow::before{content:"";width:44px;height:1px;background:var(--magenta)}
-.capa h1{font-size:clamp(46px,8.4vw,116px);max-width:12ch}
-.capa h1 em{font-style:normal;
-  background:linear-gradient(100deg,var(--magenta),var(--lilas) 45%,var(--ciano));
-  -webkit-background-clip:text;background-clip:text;color:transparent}
-.capa p{margin-top:26px;font-size:18.5px;max-width:46ch;color:rgba(239,233,223,.72)}
-.acoes{display:flex;gap:14px;flex-wrap:wrap;margin-top:38px}
+.capa .wrap{position:relative;z-index:3;display:flex;flex-direction:column;align-items:center;
+  text-align:center;width:100%}
+.eyebrow{font-size:13px;letter-spacing:.18em;white-space:nowrap;color:rgba(239,233,223,.6);margin-bottom:26px;
+  display:flex;align-items:center;gap:14px}
+.eyebrow::before,.eyebrow::after{content:"";width:40px;height:1px;background:var(--magenta)}
+.eyebrow::after{background:var(--ciano)}
+.capa h1{font-size:clamp(46px,9.2vw,128px);max-width:13ch}
+.palavra{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.06em;margin-bottom:-.06em}
+.palavra>span{display:inline-block;transform:translateY(110%);animation:subirPalavra .95s cubic-bezier(.16,.9,.24,1) forwards}
+@keyframes subirPalavra{to{transform:none}}
+.capa p,.acoes{animation:surgir .9s .55s both cubic-bezier(.16,.9,.24,1)}
+@keyframes surgir{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+#pincel{position:absolute;inset:0;z-index:1;pointer-events:none}
+.capa h1 em,.capa h1 em .palavra>span{font-style:normal;
+  background:linear-gradient(100deg,var(--magenta),var(--lilas) 35%,var(--ciano) 60%,var(--magenta));
+  background-size:260% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:deslizarGrad 9s ease-in-out infinite alternate}
+.capa h1 em .palavra>span{animation:subirPalavra .95s cubic-bezier(.16,.9,.24,1) forwards,
+  deslizarGrad 9s ease-in-out infinite alternate}
+@keyframes deslizarGrad{to{background-position:100% 0}}
+.capa p{margin:28px auto 0;font-size:18.5px;max-width:48ch;color:rgba(239,233,223,.72)}
+.acoes{display:flex;gap:14px;flex-wrap:wrap;margin-top:40px;justify-content:center}
 .btn{padding:16px 30px;border-radius:99px;font-family:'Bricolage Grotesque';font-weight:800;font-size:16px;
   transition:transform .15s ease,box-shadow .25s ease}
 .btn:active{transform:translateY(1px)}
@@ -98,8 +116,8 @@ img,svg{display:block}
   border:3px solid var(--noite);box-shadow:0 2px 10px rgba(0,0,0,.6)}
 .hue::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid var(--noite)}
 .dica-hue{font-size:12.5px;color:rgba(239,233,223,.55);margin-top:10px;text-align:center}
-.rolar{position:absolute;left:28px;bottom:34px;z-index:2;display:flex;align-items:center;gap:12px;
-  font-size:12.5px;letter-spacing:.14em;color:rgba(239,233,223,.55)}
+.rolar{position:absolute;left:50%;transform:translateX(-50%);bottom:30px;z-index:3;z-index:2;display:flex;align-items:center;gap:12px;
+  font-size:12.5px;letter-spacing:.14em;color:rgba(239,233,223,.55);flex-direction:column}
 .rolar i{width:1px;height:46px;background:linear-gradient(var(--magenta),transparent);display:block;
   animation:escorrer 2.2s infinite ease-in-out}
 @keyframes escorrer{0%,100%{transform:scaleY(.4);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}}
@@ -113,7 +131,7 @@ img,svg{display:block}
              linear-gradient(180deg,rgba(0,0,0,.28),transparent 30%,rgba(0,0,0,.42))}
 .palco .wrap{position:relative;z-index:2;width:100%}
 .capitulo-num{font-family:'Bricolage Grotesque';font-weight:800;font-size:14px;letter-spacing:.2em;opacity:.7}
-.capitulo-nome{font-size:clamp(44px,10vw,138px);margin:14px 0 0;max-width:14ch}
+.capitulo-nome{font-size:clamp(38px,6.4vw,92px);margin:14px 0 0;max-width:11ch}
 .capitulo-hex{font-size:15px;letter-spacing:.22em;margin-top:20px;opacity:.85}
 .capitulo-texto{margin-top:18px;max-width:40ch;font-size:18px;opacity:.85}
 .capitulo-cta{margin-top:32px;display:inline-block;padding:14px 26px;border-radius:99px;
@@ -267,10 +285,70 @@ img,svg{display:block}
 .revelar{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.3,1)}
 .revelar.visivel{opacity:1;transform:none}
 
+/* letreiro rolante */
+.letreiro{overflow:hidden;padding:16px 0;border-top:1px solid var(--neblina);border-bottom:1px solid var(--neblina);
+  background:rgba(255,255,255,.03);-webkit-mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
+  mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.letreiro ul{display:flex;gap:44px;width:max-content;list-style:none;animation:correr 34s linear infinite}
+.letreiro:hover ul{animation-play-state:paused}
+.letreiro li{display:flex;align-items:center;gap:14px;white-space:nowrap;
+  font-family:'Bricolage Grotesque';font-weight:800;font-size:22px;letter-spacing:-.02em;color:rgba(239,233,223,.72)}
+.letreiro i{width:13px;height:13px;border-radius:50%;display:block;box-shadow:0 0 18px currentColor}
+@keyframes correr{to{transform:translateX(-50%)}}
+
+/* recipientes da seção cromática */
+.recipiente{position:absolute;right:13%;top:50%;width:min(27vw,350px);z-index:2;pointer-events:none;
+  transform:translateY(-50%)}
+.recipiente svg{width:100%;height:auto;filter:drop-shadow(0 40px 60px rgba(0,0,0,.35));
+  animation:boiar 6s ease-in-out infinite alternate}
+@keyframes boiar{from{transform:translateY(-10px) rotate(-1.5deg)}to{transform:translateY(10px) rotate(1.5deg)}}
+.recipiente.trocando{animation:entrarPote .55s cubic-bezier(.2,.9,.3,1)}
+@keyframes entrarPote{from{opacity:0;transform:translateY(-50%) scale(.86)}to{opacity:1;transform:translateY(-50%) scale(1)}}
+.escorre{stroke-dasharray:52;stroke-dashoffset:52;animation:pingar 3.2s ease-in-out infinite}
+@keyframes pingar{0%{stroke-dashoffset:52;opacity:.9}55%{stroke-dashoffset:0;opacity:.9}100%{stroke-dashoffset:0;opacity:0}}
+.capitulo-nome{position:relative}
+.pingo{width:3px;height:0;border-radius:99px;background:currentColor;margin-top:16px;
+  animation:gotejar 3s ease-in-out infinite}
+.pingo{position:relative}
+.pingo::after{content:"";position:absolute;left:-3.5px;bottom:-7px;width:10px;height:10px;
+  border-radius:50%;background:currentColor}
+@keyframes gotejar{0%{height:0;opacity:.7}60%{height:54px;opacity:.35}100%{height:54px;opacity:0}}
+@media(max-width:1040px){.recipiente{opacity:.22;right:-4%;width:60vw}}
+
+/* fluxo de pagamento */
+.gerando{text-align:center;padding:30px 6px 10px}
+.aro{width:66px;height:66px;margin:0 auto;border-radius:50%;
+  background:conic-gradient(from 0deg,transparent,var(--magenta),var(--lilas),var(--ciano));
+  -webkit-mask:radial-gradient(circle,transparent 55%,#000 56%);mask:radial-gradient(circle,transparent 55%,#000 56%);
+  animation:girar 1.1s linear infinite}
+@keyframes girar{to{transform:rotate(360deg)}}
+.gerando h4{font-family:'Bricolage Grotesque';font-weight:800;font-size:19px;margin-top:20px}
+.etapas{list-style:none;margin:24px auto 6px;max-width:320px;text-align:left}
+.etapas li{display:flex;align-items:center;gap:12px;padding:9px 0;font-size:14.5px;
+  color:rgba(239,233,223,.42);transition:color .35s ease}
+.etapas li::before{content:"";width:19px;height:19px;border-radius:50%;flex:none;font-size:11px;
+  box-shadow:inset 0 0 0 1.5px var(--neblina);display:grid;place-items:center;transition:all .35s ease}
+.etapas li.ok{color:var(--areia)}
+.etapas li.ok::before{content:"✓";color:#fff;box-shadow:none;background:linear-gradient(120deg,var(--magenta),var(--lilas))}
+.cobranca{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:22px;
+  font-size:13px;color:rgba(239,233,223,.6)}
+.viva{display:flex;align-items:center;gap:9px}
+.pulso{width:9px;height:9px;border-radius:50%;background:#3DDC84;animation:pulsar 1.5s infinite}
+@keyframes pulsar{0%{box-shadow:0 0 0 0 rgba(61,220,132,.55)}70%{box-shadow:0 0 0 11px rgba(61,220,132,0)}100%{box-shadow:0 0 0 0 rgba(61,220,132,0)}}
+.cronometro{font-family:'Bricolage Grotesque';font-weight:800;color:var(--areia);font-size:15px}
+.barra-espera{height:4px;border-radius:99px;background:rgba(255,255,255,.12);overflow:hidden;margin-top:16px}
+.barra-espera i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--magenta),var(--ciano));
+  animation:encher 2.4s cubic-bezier(.4,0,.2,1) forwards}
+@keyframes encher{to{width:100%}}
+#qr{opacity:0;transition:opacity .4s ease}
+#qr.pronto{opacity:1}
+
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
   html{scroll-behavior:auto}
-  .revelar,.produto{opacity:1!important;transform:none!important}
+  .revelar,.produto,#qr{opacity:1!important;transform:none!important}
+  .recipiente{transform:translateY(-50%)!important}
+  .palavra>span{transform:none!important}
   .cromatica{height:auto}
   .palco{position:relative;height:auto;padding:90px 0}
 }
@@ -296,31 +374,20 @@ img,svg{display:block}
   <div class="brilho b1" data-parallax="0.14"></div>
   <div class="brilho b2" data-parallax="-0.10"></div>
   <div class="brilho b3" data-parallax="0.07"></div>
+  <canvas id="pincel" aria-hidden="true"></canvas>
   <div class="wrap">
-    <div>
-      <p class="eyebrow">Tintas personalizadas · Rio de Janeiro</p>
-      <h1>A cor certa <em>não está</em> no catálogo.</h1>
-      <p>A gente mistura o tom exato que você escolher, com o código na mão e a lata pronta em 48 horas. Sem aproximação, sem “parecido”.</p>
-      <div class="acoes">
-        <button class="btn btn-cor" data-abrir-seletor>Escolha sua cor</button>
-        <a href="#cores" class="btn btn-linha">Ver as cores da casa</a>
-      </div>
-    </div>
-    <div>
-      <div class="pote">
-        <div class="onda"></div>
-        <div class="pote-topo"><span>COR SELECIONADA</span><span id="poteCod">RD-0000</span></div>
-        <div>
-          <div class="pote-nome" id="poteNome">Azul Guanabara</div>
-          <div class="pote-hex" id="poteHex">#123C8C</div>
-        </div>
-      </div>
-      <input type="range" class="hue" id="hueCapa" min="0" max="360" value="218" aria-label="Ajustar matiz da cor em destaque">
-      <p class="dica-hue">Arraste para explorar 16 milhões de tons</p>
+    <p class="eyebrow">Tintas personalizadas · Rio de Janeiro</p>
+    <h1 id="titulo">A cor certa <em>não está</em> no catálogo.</h1>
+    <p>A gente mistura o tom exato que você escolher, com o código na mão e a lata pronta em 48 horas. Sem aproximação, sem “parecido”.</p>
+    <div class="acoes">
+      <button class="btn btn-cor" data-abrir-seletor>Escolha sua cor</button>
+      <a href="#cores" class="btn btn-linha">Ver as cores da casa</a>
     </div>
   </div>
   <div class="rolar"><i></i> ROLE</div>
 </section>
+
+<div class="letreiro" aria-hidden="true"><ul id="letreiro"></ul></div>
 
 <section class="cromatica" id="cores">
   <div class="palco" id="palco">
@@ -328,9 +395,11 @@ img,svg{display:block}
       <p class="capitulo-num" id="capNum">01 — CORES DA CASA</p>
       <h2 class="capitulo-nome" id="capNome">Azul Guanabara</h2>
       <p class="capitulo-hex" id="capHex">#123C8C</p>
+      <div class="pingo"></div>
       <p class="capitulo-texto" id="capTexto">O azul fundo da baía ao entardecer. Pede paredes amplas e luz natural.</p>
       <button class="capitulo-cta" id="capBtn"><span>Pintar com esta cor</span></button>
     </div>
+    <div class="recipiente" id="recipiente"></div>
     <div class="indice" id="indice"></div>
   </div>
 </section>
@@ -484,15 +553,57 @@ const preco=()=>estado.base*TAMANHOS[estado.tamanho].f*ACABAMENTOS[estado.acabam
 function pintarCapa(hex,nome){
   raiz.style.setProperty("--cor-viva",hex);
   raiz.style.setProperty("--cor-viva-texto",claro(hex)?"#111418":"#FFFFFF");
-  poteNome.textContent=nome||nomeDaCor(hex);
-  poteHex.textContent=hex;poteCod.textContent=codigoDaCor(hex);
 }
-const hueCapa=document.getElementById("hueCapa");
-hueCapa.addEventListener("input",()=>{
-  const hex=rgbHex(...hsvRgb(+hueCapa.value,.82,.72));
-  estado.hex=hex;estado.nome=nomeDaCor(hex);pintarCapa(hex);
-});
 pintarCapa(estado.hex,estado.nome);
+
+/* título revelado palavra por palavra */
+(function fatiarTitulo(){
+  if(semMovimento)return;
+  const h1=document.getElementById("titulo");let i=0;
+  const embrulhar=(txt)=>{
+    const fora=document.createElement("span");fora.className="palavra";
+    const dentro=document.createElement("span");dentro.textContent=txt;
+    dentro.style.animationDelay=(i++*80+120)+"ms";fora.appendChild(dentro);return fora;};
+  const montar=(origem,destino)=>{
+    origem.textContent.split(" ").forEach((t,k,arr)=>{
+      if(t)destino.appendChild(embrulhar(t));
+      if(k<arr.length-1)destino.appendChild(document.createTextNode(" "));});};
+  const novo=document.createDocumentFragment();
+  [...h1.childNodes].forEach(no=>{
+    if(no.nodeType===3)montar(no,novo);
+    else{const em=document.createElement("em");montar(no,em);novo.appendChild(em);}
+  });
+  h1.textContent="";h1.appendChild(novo);
+})();
+
+/* rastro de tinta no cursor sobre a capa */
+(function rastro(){
+  if(semMovimento)return;
+  const c=document.getElementById("pincel"),x=c.getContext("2d"),capa=document.querySelector(".capa");
+  const dim=()=>{c.width=capa.offsetWidth;c.height=capa.offsetHeight;};
+  dim();addEventListener("resize",dim);
+  const pingos=[];const paleta=["#E23C7B","#7B5BF0","#37B9F1","#E9A62B","#0E7A5F"];
+  let ultimo=0;
+  capa.addEventListener("pointermove",e=>{
+    const agora=performance.now();if(agora-ultimo<26)return;ultimo=agora;
+    const r=capa.getBoundingClientRect();
+    pingos.push({x:e.clientX-r.left,y:e.clientY-r.top,r:Math.random()*13+7,v:1,
+      cor:paleta[Math.floor(Math.random()*paleta.length)]});
+    if(pingos.length>60)pingos.shift();
+  },{passive:true});
+  (function anima(){
+    x.clearRect(0,0,c.width,c.height);
+    for(let i=pingos.length-1;i>=0;i--){
+      const p=pingos[i];p.v-=.018;p.r*=1.012;
+      if(p.v<=0){pingos.splice(i,1);continue;}
+      const g=x.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r);
+      g.addColorStop(0,p.cor);g.addColorStop(.55,p.cor);g.addColorStop(1,"transparent");
+      x.globalAlpha=p.v*.32;x.fillStyle=g;
+      x.beginPath();x.arc(p.x,p.y,p.r,0,7);x.fill();
+    }
+    x.globalAlpha=1;requestAnimationFrame(anima);
+  })();
+})();
 
 /* ---------- nav, progresso e parallax ---------- */
 const nav=document.getElementById("nav"),barra=document.getElementById("progresso");
@@ -503,7 +614,7 @@ function aoRolar(){
   nav.classList.toggle("colada",y>40);
   const alturaTotal=document.body.scrollHeight-innerHeight;
   barra.style.width=(alturaTotal>0?(y/alturaTotal)*100:0)+"%";
-  if(!semMovimento)camadas.forEach(c=>{c.style.transform=`translate3d(0,${y*+c.dataset.parallax}px,0)`;});
+  if(!semMovimento)camadas.forEach(c=>{c.style.setProperty("--py",(y*+c.dataset.parallax)+"px");});
   moverCromatica(y);
   tique=false;
 }
@@ -511,14 +622,54 @@ addEventListener("scroll",()=>{if(!tique){tique=true;requestAnimationFrame(aoRol
 
 /* ---------- seção cromática travada ---------- */
 const CAPITULOS=[
- {h:"#123C8C",n:"Azul Guanabara",t:"O azul fundo da baía ao entardecer. Pede paredes amplas e luz natural."},
- {h:"#0E7A5F",n:"Verde Tijuca",  t:"Verde de mata fechada. Deixa quarto e escritório mais silenciosos."},
- {h:"#E9A62B",n:"Ocre Copacabana",t:"O amarelo queimado do calçadão às cinco da tarde. Esquenta ambiente frio."},
- {h:"#C4552F",n:"Terracota Santa Teresa",t:"Barro de telha antiga. Combina com madeira crua e tijolo aparente."},
- {h:"#C0356F",n:"Magenta Carnaval",t:"Para quem cansou de parede branca. Funciona melhor em uma parede só."},
- {h:"#101528",n:"Preto Basalto",  t:"Fosco absoluto. Some com a parede e joga toda a luz nos móveis."}
+ {h:"#123C8C",n:"Azul Guanabara",v:"lata",t:"O azul fundo da baía ao entardecer. Pede paredes amplas e luz natural.",e:"Acrílica fosca · galão 3,6 L"},
+ {h:"#0E7A5F",n:"Verde Tijuca",v:"rolo",t:"Verde de mata fechada. Deixa quarto e escritório mais silenciosos.",e:"Acrílica acetinada · rende 45 m²"},
+ {h:"#E9A62B",n:"Ocre Copacabana",v:"spray",t:"O amarelo queimado do calçadão às cinco da tarde. Esquenta ambiente frio.",e:"Também em spray 400 ml"},
+ {h:"#C4552F",n:"Terracota Santa Teresa",v:"balde",t:"Barro de telha antiga. Combina com madeira crua e tijolo aparente.",e:"Balde 18 L para área grande"},
+ {h:"#C0356F",n:"Magenta Carnaval",v:"pincel",t:"Para quem cansou de parede branca. Funciona melhor em uma parede só.",e:"Ideal para parede de destaque"},
+ {h:"#101528",n:"Preto Basalto",v:"verniz",t:"Fosco absoluto. Some com a parede e joga toda a luz nos móveis.",e:"Disponível também em verniz"}
 ];
+const POTES={
+ lata:`<svg viewBox="0 0 200 240" fill="none" stroke="currentColor" stroke-width="3.2">
+   <path d="M52 44c12-24 84-24 96 0" opacity=".8"/>
+   <ellipse cx="100" cy="58" rx="60" ry="17"/>
+   <path d="M40 58v140c0 9.4 26.9 17 60 17s60-7.6 60-17V58" fill="currentColor" fill-opacity=".16"/>
+   <path d="M40 104h120M40 158h120" opacity=".45"/>
+   <path class="escorre" d="M100 76v58" stroke-width="7" stroke-linecap="round"/></svg>`,
+ rolo:`<svg viewBox="0 0 200 240" fill="none" stroke="currentColor" stroke-width="3.2">
+   <rect x="26" y="42" width="130" height="46" rx="14" fill="currentColor" fill-opacity=".22"/>
+   <path d="M91 88v22h34v112" stroke-linecap="round"/>
+   <path d="M110 222h30" stroke-width="8" stroke-linecap="round"/>
+   <path d="M26 118h130" stroke-width="16" opacity=".5" stroke-linecap="round"/>
+   <path class="escorre" d="M52 128v52" stroke-width="6" stroke-linecap="round"/></svg>`,
+ spray:`<svg viewBox="0 0 200 240" fill="none" stroke="currentColor" stroke-width="3.2">
+   <rect x="62" y="64" width="70" height="156" rx="18" fill="currentColor" fill-opacity=".16"/>
+   <rect x="62" y="140" width="70" height="80" rx="16" fill="currentColor" fill-opacity=".4" stroke="none"/>
+   <rect x="80" y="34" width="36" height="30" rx="9"/>
+   <path d="M116 46h20"/>
+   <circle cx="152" cy="40" r="5" fill="currentColor" stroke="none" opacity=".8"/>
+   <circle cx="170" cy="28" r="3.5" fill="currentColor" stroke="none" opacity=".6"/>
+   <circle cx="168" cy="52" r="3" fill="currentColor" stroke="none" opacity=".5"/>
+   <path d="M62 104h70" opacity=".45"/></svg>`,
+ balde:`<svg viewBox="0 0 200 240" fill="none" stroke="currentColor" stroke-width="3.2">
+   <path d="M46 74h108l-16 140H62z" fill="currentColor" fill-opacity=".16"/>
+   <ellipse cx="100" cy="74" rx="54" ry="15"/>
+   <path d="M52 68c8-32 88-32 96 0" opacity=".8"/>
+   <path d="M60 140h80l-8 74H68z" fill="currentColor" fill-opacity=".45" stroke="none"/>
+   <path class="escorre" d="M100 92v46" stroke-width="7" stroke-linecap="round"/></svg>`,
+ pincel:`<svg viewBox="0 0 200 240" fill="none" stroke="currentColor" stroke-width="3.2">
+   <rect x="84" y="22" width="32" height="92" rx="14"/>
+   <rect x="76" y="112" width="48" height="30" rx="5" fill="currentColor" fill-opacity=".25"/>
+   <path d="M78 142h44v42c0 14-44 14-44 0z" fill="currentColor" fill-opacity=".5"/>
+   <path d="M44 214c30-16 82-16 112 0" stroke-width="13" stroke-linecap="round" opacity=".55"/></svg>`,
+ verniz:`<svg viewBox="0 0 200 240" fill="none" stroke="currentColor" stroke-width="3.2">
+   <path d="M78 30h44v26l22 26v142c0 8-88 8-88 0V82l22-26z" fill="currentColor" fill-opacity=".16"/>
+   <path d="M56 132h88" opacity=".45"/>
+   <path d="M56 150h88v72c0 8-88 8-88 0z" fill="currentColor" fill-opacity=".42" stroke="none"/>
+   <path class="escorre" d="M100 92v40" stroke-width="6" stroke-linecap="round"/></svg>`
+};
 const cromatica=document.getElementById("cores"),palco=document.getElementById("palco");
+const recipiente=document.getElementById("recipiente");
 const capNum=document.getElementById("capNum"),capNome=document.getElementById("capNome");
 const capHex=document.getElementById("capHex"),capTexto=document.getElementById("capTexto");
 const indice=document.getElementById("indice");
@@ -533,7 +684,10 @@ let capAtual=-1;
 function aplicarCapitulo(i){
   if(i===capAtual)return;capAtual=i;const c=CAPITULOS[i];
   capNum.textContent=String(i+1).padStart(2,"0")+" — CORES DA CASA";
-  capNome.textContent=c.n;capHex.textContent=c.h;capTexto.textContent=c.t;
+  capNome.textContent=c.n;capHex.textContent=c.h+"  ·  "+c.e;capTexto.textContent=c.t;
+  recipiente.innerHTML=POTES[c.v];
+  recipiente.classList.remove("trocando");void recipiente.offsetWidth;
+  if(!semMovimento)recipiente.classList.add("trocando");
   indice.querySelectorAll("[data-ir]").forEach((b,j)=>b.setAttribute("aria-current",j===i));
 }
 function moverCromatica(y){
@@ -616,6 +770,7 @@ function abrir(el){focoAnterior=document.activeElement;el.classList.add("aberto"
   document.body.style.overflow="hidden";
   const alvo=el.querySelector("input,button");alvo&&alvo.focus();}
 function fechar(el){el.classList.remove("aberto");document.body.style.overflow="";
+  if(typeof limparTimers==="function")limparTimers();
   focoAnterior&&focoAnterior.focus();}
 document.addEventListener("click",e=>{
   if(e.target.closest("[data-fechar]"))fechar(e.target.closest(".fundo"));
@@ -693,9 +848,33 @@ document.getElementById("btnContinuar").addEventListener("click",()=>{fechar(fun
 /* ---------- pagamento PIX (simulado) ---------- */
 const fundoPagar=document.getElementById("fundoPagar"),corpoPagar=document.getElementById("corpoPagar");
 const CHAVE="00020126580014BR.GOV.BCB.PIX0136a71c3f9d-4e28-4b16-9c50-riodecordemo5204000053039865802BR5910RIO DECOR6014ANGRA DOS REIS62070503***6304C7D1";
+let relogio=null,temporizadores=[];
+function limparTimers(){temporizadores.forEach(clearTimeout);temporizadores=[];
+  if(relogio){clearInterval(relogio);relogio=null;}}
+
 function abrirPagamento(){
+  limparTimers();
+  document.getElementById("tituloPagar").textContent="Gerando cobrança";
+  document.querySelector("#fundoPagar .modal-cabeca p").textContent="Aguarde alguns segundos";
+  corpoPagar.innerHTML=`
+    <div class="gerando">
+      <div class="aro"></div>
+      <h4>Preparando seu pedido</h4>
+      <ul class="etapas">
+        <li data-etapa>Reservando ${estado.nome}</li>
+        <li data-etapa>Calculando a fórmula da mistura</li>
+        <li data-etapa>Emitindo cobrança Pix</li>
+      </ul>
+    </div>`;
+  abrir(fundoPagar);
+  const etapas=[...corpoPagar.querySelectorAll("[data-etapa]")];
+  etapas.forEach((li,i)=>temporizadores.push(setTimeout(()=>li.classList.add("ok"),480+i*620)));
+  temporizadores.push(setTimeout(montarCobranca,2450));
+}
+
+function montarCobranca(){
   document.getElementById("tituloPagar").textContent="Finalizar pedido";
-  document.querySelector("#fundoPagar .modal-cabeca p").textContent="Pagamento via PIX";
+  document.querySelector("#fundoPagar .modal-cabeca p").textContent="Pagamento via Pix";
   const numero=String(Math.floor(Math.random()*9e5+1e5));
   corpoPagar.innerHTML=`
     <div class="resumo">
@@ -713,7 +892,11 @@ function abrirPagamento(){
         <button class="btn-copiar" id="btnCopiar">Copiar código</button>
       </div>
     </div>
-    <button class="btn-largo" id="btnPagar" style="margin-top:24px"></button>
+    <div class="cobranca">
+      <span class="viva"><i class="pulso"></i> Aguardando pagamento</span>
+      <span>expira em <b class="cronometro" id="cronometro">10:00</b></span>
+    </div>
+    <button class="btn-largo" id="btnPagar" style="margin-top:18px"></button>
     <p class="simulado">Pedido #${numero} · Demonstração escolar: chave e QR Code fictícios, nenhum pagamento é processado.</p>`;
   const tam=document.getElementById("tamanhos");
   tam.innerHTML=TAMANHOS.map((t,i)=>
@@ -722,37 +905,67 @@ function abrirPagamento(){
     const b=e.target.closest("[data-tam]");if(!b)return;
     estado.tamanho=+b.dataset.tam;
     tam.querySelectorAll(".tam").forEach((t,i)=>t.setAttribute("aria-pressed",i===estado.tamanho));
-    atualizarValores();});
+    atualizarValores();desenharQR();});
   document.getElementById("btnCopiar").addEventListener("click",e=>{
     navigator.clipboard?.writeText(CHAVE);
     e.target.textContent="Código copiado";
     setTimeout(()=>e.target.textContent="Copiar código",1800);});
   document.getElementById("btnPagar").addEventListener("click",pagar);
-  atualizarValores();desenharQR();abrir(fundoPagar);
+  atualizarValores();desenharQR();iniciarCronometro(600);
 }
+
+function iniciarCronometro(segundos){
+  const el=document.getElementById("cronometro");
+  relogio=setInterval(()=>{
+    if(!document.body.contains(el)){clearInterval(relogio);relogio=null;return;}
+    segundos--;
+    el.textContent=String(Math.floor(segundos/60)).padStart(2,"0")+":"+String(segundos%60).padStart(2,"0");
+    if(segundos<=0){clearInterval(relogio);relogio=null;el.textContent="00:00";}
+  },1000);
+}
+
 function atualizarValores(){
   const v=preco();
   document.getElementById("valorTotal").textContent=brl(v);
   document.getElementById("btnPagar").textContent="Pagar "+brl(v);
 }
+
 function desenharQR(){
-  const c=document.getElementById("qr"),x=c.getContext("2d"),n=25,s=c.width/(n+2);
-  x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height);x.fillStyle="#0B1020";
-  let semente=hexRgb(estado.hex).reduce((a,b)=>a+b,7);
+  const c=document.getElementById("qr");if(!c)return;
+  const x=c.getContext("2d"),n=25,s=c.width/(n+2);
+  x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height);
+  let semente=hexRgb(estado.hex).reduce((a,b)=>a+b,7)+estado.tamanho*31;
   const rnd=()=>{semente=(semente*9301+49297)%233280;return semente/233280;};
+  const modulos=[];
+  for(let j=0;j<n;j++)for(let i=0;i<n;i++){
+    if((i<8&&j<8)||(i>n-9&&j<8)||(i<8&&j>n-9))continue;
+    if(rnd()>.52)modulos.push([i,j]);}
   const marca=(cx,cy)=>{
     x.fillStyle="#0B1020";x.fillRect((cx+1)*s,(cy+1)*s,s*7,s*7);
     x.fillStyle="#fff";x.fillRect((cx+2)*s,(cy+2)*s,s*5,s*5);
     x.fillStyle="#0B1020";x.fillRect((cx+3)*s,(cy+3)*s,s*3,s*3);};
-  for(let i=0;i<n;i++)for(let j=0;j<n;j++){
-    if((i<8&&j<8)||(i>n-9&&j<8)||(i<8&&j>n-9))continue;
-    if(rnd()>.52)x.fillRect((i+1)*s,(j+1)*s,s,s);}
-  marca(0,0);marca(n-7,0);marca(0,n-7);
+  c.classList.add("pronto");
+  if(semMovimento){x.fillStyle="#0B1020";modulos.forEach(([i,j])=>x.fillRect((i+1)*s,(j+1)*s,s,s));
+    marca(0,0);marca(n-7,0);marca(0,n-7);return;}
+  let k=0;
+  (function pintar(){
+    x.fillStyle="#0B1020";
+    for(let q=0;q<26&&k<modulos.length;q++,k++){
+      const[i,j]=modulos[k];x.fillRect((i+1)*s,(j+1)*s,s,s);}
+    if(k<modulos.length)requestAnimationFrame(pintar);
+    else{marca(0,0);marca(n-7,0);marca(0,n-7);}
+  })();
 }
+
 function pagar(){
+  limparTimers();
   const b=document.getElementById("btnPagar");
-  b.disabled=true;b.textContent="Confirmando pagamento…";
-  setTimeout(()=>{
+  b.disabled=true;b.textContent="Aguardando confirmação do banco…";
+  const aviso=document.querySelector(".cobranca");
+  if(aviso)aviso.innerHTML='<span class="viva"><i class="pulso"></i> Compensando o Pix</span><span>não feche esta janela</span>';
+  const barra=document.createElement("div");
+  barra.className="barra-espera";barra.innerHTML="<i></i>";b.after(barra);
+  temporizadores.push(setTimeout(()=>{
     const numero=String(Math.floor(Math.random()*9e5+1e5));
     document.getElementById("tituloPagar").textContent="Pedido confirmado";
     document.querySelector("#fundoPagar .modal-cabeca p").textContent="Obrigado pela compra";
@@ -769,8 +982,9 @@ function pagar(){
         <button class="btn btn-cor" style="margin-top:24px;width:100%" data-fechar>Voltar à loja</button>
       </div>`;
     soltarConfete();
-  },1500);
+  },2600));
 }
+
 function soltarConfete(){
   if(semMovimento)return;
   const c=document.getElementById("confete"),x=c.getContext("2d");
@@ -790,6 +1004,12 @@ function soltarConfete(){
     if(++q<200)requestAnimationFrame(anima);
     else{x.clearRect(0,0,c.width,c.height);c.style.display="none";}})();
 }
+/* letreiro rolante com as cores da casa */
+(function montarLetreiro(){
+  const itens=CAPITULOS.map(c=>`<li><i style="background:${c.h};color:${c.h}"></i>${c.n}</li>`).join("");
+  document.getElementById("letreiro").innerHTML=itens+itens;
+})();
+
 aoRolar();
 </script>
 
