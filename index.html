@@ -354,6 +354,7 @@ img,svg{display:block}
 @media(pointer:coarse){.cursor{display:none}}
 
 /* revelação por letra */
+.palavra-inteira{display:inline-block;white-space:nowrap}
 .letra{display:inline-block;opacity:0;filter:blur(8px);transform:translateY(.55em) rotate(5deg);
   transition:opacity .55s ease,filter .55s ease,transform .8s cubic-bezier(.16,.9,.24,1)}
 .dentro .letra{opacity:1;filter:none;transform:none}
@@ -728,7 +729,7 @@ const forcado=new URLSearchParams(location.search).get("anim")==="1";
 if(forcado)document.body.classList.add("movimento-on");
 const sistemaReduz=matchMedia("(prefers-reduced-motion:reduce)").matches;
 const semMovimento=sistemaReduz&&!forcado;
-console.log("Rio Decor · build 7 (pontas inteiras, sem corte) · movimento:",semMovimento?"desligado":"ligado");
+console.log("Rio Decor · build 8 (quebra de linha por palavra) · movimento:",semMovimento?"desligado":"ligado");
 if(sistemaReduz&&!forcado){
   addEventListener("DOMContentLoaded",()=>{
     const av=document.getElementById("avisoMotion");av.classList.add("ver");
@@ -1293,10 +1294,16 @@ function moverFaixa(){
     if(e.isIntersecting){e.target.classList.add("dentro");obs.unobserve(e.target);}}),{threshold:.35});
   document.querySelectorAll(".secao h2,.faixa h2,.trilho-cabeca h2").forEach(h=>{
     const frag=document.createDocumentFragment();let i=0;
-    [...h.textContent].forEach(ch=>{
-      if(ch===" "){frag.appendChild(document.createTextNode(" "));return;}
-      const sp=document.createElement("span");sp.className="letra";sp.textContent=ch;
-      sp.style.transitionDelay=(i++*26)+"ms";frag.appendChild(sp);});
+    /* cada palavra vira um bloco que não quebra: a linha só pode
+       quebrar entre palavras, nunca no meio delas */
+    h.textContent.split(" ").filter(Boolean).forEach((palavra,k,todas)=>{
+      const caixa=document.createElement("span");caixa.className="palavra-inteira";
+      [...palavra].forEach(ch=>{
+        const sp=document.createElement("span");sp.className="letra";sp.textContent=ch;
+        sp.style.transitionDelay=(i++*26)+"ms";caixa.appendChild(sp);});
+      frag.appendChild(caixa);
+      if(k<todas.length-1)frag.appendChild(document.createTextNode(" "));
+    });
     h.textContent="";h.appendChild(frag);obs.observe(h);
   });
 })();
